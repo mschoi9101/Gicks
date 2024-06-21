@@ -13,34 +13,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model User {
-  uuid  String  @id @db.Uuid
-  password String
-  name  String
-  studentID Int @map("student_id")
-  major String
+  uuid      String @id @db.Uuid
+  password  String
+  name      String
+  studentID Int    @map("student_id")
+  major     String
 
   content Content[]
+  Recruit Recruit[]
+  Comment Comment[]
 
   @@map("user")
 }
 
 model Content {
-  uuid String @id @db.Uuid
-  title String
-  body String 
+  uuid      String   @id @db.Uuid
+  title     String
+  body      String
   createdAt DateTime @default(now()) @map("created_at")
-  Deadline DateTime @map("deadline")
-  HeadCount Int @map("headcount")
-  authorID String @map("author_id") @db.Uuid
+  Deadline  DateTime @map("deadline")
+  HeadCount Int      @map("headcount")
+  authorID  String   @map("author_id") @db.Uuid
 
-  author  User @relation(fields: [authorID], references: [uuid])
-  tags Tags[]
+  author  User      @relation(fields: [authorID], references: [uuid])
+  tags    Tags[]
+  Recruit Recruit[]
+  Comment Comment[]
 
   @@map("content")
 }
 
+model Tags {
+  id        Int       @id @default(autoincrement())
+  tag       String    @unique
+  contentss Content[]
 
+  @@map("tag")
+}
 
+model Recruit {
+  id          Int    @id @default(autoincrement())
+  contentUuid String @map("content_uuid") @db.Uuid
+  userUuid    String @map("user_uuid") @db.Uuid
+
+  content Content @relation(fields: [contentUuid], references: [uuid])
+  user    User    @relation(fields: [userUuid], references: [uuid])
+
+  @@map("recruit")
+}
+
+model Comment {
+  contentUuid    String    @map("content_uuid") @db.Uuid
+  uuid           String    @unique @db.Uuid
+  commentContent String    @map("comment_content")
+  userUuid       String    @map("comment_uuid") @db.Uuid
+  createAt       DateTime  @default(now()) @map("created_at")
+  deleteAt       DateTime? @map("deleted_at")
+
+  content Content @relation(fields: [contentUuid], references: [uuid])
+  user    User    @relation(fields: [userUuid], references: [uuid])
+
+  @@map("comment")
+}
