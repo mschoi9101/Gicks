@@ -15,7 +15,6 @@ import { GetContentListDto } from './dto/get-contentList.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { GetUser } from 'src/user/decorator/get-user.decorator';
 import { UpdateContentDto } from './dto/UpdateContent.dto';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('contents')
@@ -66,4 +65,4 @@ export class ContentsController {
   deleteContent(@GetUser() userUuid: string, @Param('uuid') uuid: string) {
     return this.contentService.deleteContent(userUuid, uuid);
   }
- }
+}
