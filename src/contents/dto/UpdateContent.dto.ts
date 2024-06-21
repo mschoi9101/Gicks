@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+
 export class UpdateContentDto {
   readonly title: string;
 
@@ -5,5 +7,6 @@ export class UpdateContentDto {
 
   readonly Deadline: Date;
 
-  readonly HeadCount: Int16Array;
+  @Type(() => Number)
+  readonly HeadCount: number;
 }

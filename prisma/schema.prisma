@@ -32,6 +32,7 @@ model Content {
   title     String
   body      String
   createdAt DateTime @default(now()) @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
   Deadline  DateTime @map("deadline")
   HeadCount Int      @map("headcount")
   authorID  String   @map("author_id") @db.Uuid
