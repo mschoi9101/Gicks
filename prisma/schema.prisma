@@ -47,7 +47,7 @@ model Content {
 model Tags {
   id        Int       @id @default(autoincrement())
   tag       String    @unique
-  contentss Content[]
+  contents Content[]
 
   @@map("tag")
 }
