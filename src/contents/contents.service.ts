@@ -10,20 +10,20 @@ export class ContentsService {
     body,
     Deadline,
     HeadCount,
-    authorID,
+    userUuid,
   }: {
     title: string;
     body: string;
     Deadline: Date;
     HeadCount: number;
-    authorID: string;
+    userUuid: string;
   }) {
     return await this.contentRepository.createContent(
       title,
       body,
       Deadline,
       HeadCount,
-      authorID,
+      userUuid,
     );
   }
 

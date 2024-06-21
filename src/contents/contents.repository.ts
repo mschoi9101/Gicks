@@ -10,7 +10,7 @@ export class ContentsRepository {
     body: string,
     Deadline: Date,
     HeadCount: number,
-    userUuid: string,
+    authorID: string,
   ) {
     return this.prismaService.content.create({
       data: {
@@ -18,17 +18,13 @@ export class ContentsRepository {
         body,
         Deadline,
         HeadCount,
-        author: {
-          connect: {
-            uuid: userUuid,
-          },
-        },
-        createdAt: new Date(),
+        authorID,
       },
     });
   }
 
   async getContentList(page: number, pageSize: number) {
+    console.log(typeof page, typeof pageSize);
     const skip = (page - 1) * pageSize;
     return this.prismaService.content.findMany({
       skip: skip,
