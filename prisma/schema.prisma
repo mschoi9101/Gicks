@@ -48,7 +48,9 @@ model Content {
 model Tags {
   id        Int       @id @default(autoincrement())
   tag       String    @unique
-  contents Content[]
+  contentUuid String  @db.Uuid
+  content Content @relation(fields: [contentUuid], references : [uuid])
+
 
   @@map("tag")
 }
