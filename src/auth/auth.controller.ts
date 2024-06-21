@@ -28,7 +28,6 @@ export class AuthController {
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
   @Post('register')
   register(@Body() { name, studentId, password, major }: RegisterDto) {
-    console.log(studentId);
     return this.authService.register(name, studentId, password, major);
   }
 

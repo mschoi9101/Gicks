@@ -15,9 +15,11 @@ import { GetContentListDto } from './dto/get-contentList.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { GetUser } from 'src/user/decorator/get-user.decorator';
 import { UpdateContentDto } from './dto/UpdateContent.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AddTagsDto } from './dto/add-tags.dto';
 
 @Controller('contents')
+@ApiTags('contents')
 export class ContentsController {
   constructor(private contentService: ContentsService) {}
 
@@ -39,7 +41,6 @@ export class ContentsController {
 
   @Get()
   getContentList(@Query() { page = 1, pageSize = 10 }: GetContentListDto) {
-    console.log(typeof page, typeof pageSize);
     return this.contentService.getContentList(page, pageSize);
   }
 
@@ -64,5 +65,15 @@ export class ContentsController {
   @Delete(':uuid')
   deleteContent(@GetUser() userUuid: string, @Param('uuid') uuid: string) {
     return this.contentService.deleteContent(userUuid, uuid);
+  }
+
+  @Post('/Tag')
+  addTags(@Body() { contentUuid, tag }: AddTagsDto) {
+    return this.contentService.addTags(contentUuid, tag);
+  }
+
+  @Get('/search/:tag')
+  search(@Param('tag') tag: string) {
+    return this.contentService.searchTag(tag);
   }
 }

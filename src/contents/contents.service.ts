@@ -61,4 +61,12 @@ export class ContentsService {
 
     return this.contentRepository.deleteContent(contentUuid);
   }
+
+  async addTags(contentUuid: string, tag: string) {
+    return await this.contentRepository.addTags(contentUuid, tag);
+  }
+
+  async searchTag(tag: string) {
+    return await this.contentRepository.searchTag(tag);
+  }
 }

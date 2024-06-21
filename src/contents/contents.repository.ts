@@ -136,4 +136,18 @@ export class ContentsRepository {
       });
     return { message: 'content has been successfully deleted' };
   }
+
+  async addTags(contentUuid: string, tag: string) {
+    return this.prismaService.tags.create({
+      data: { tag, contentUuid },
+    });
+  }
+
+  async searchTag(tag: string) {
+    const tags = await this.prismaService.tags.findMany({
+      where: { tag },
+      select: { contentUuid: true },
+    });
+    return tags.map((tag) => tag.contentUuid);
+  }
 }

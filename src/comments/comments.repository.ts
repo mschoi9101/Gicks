@@ -73,7 +73,6 @@ export class CommentsRepository {
           }
           this.logger.error('createComment error');
           this.logger.debug(error);
-          console.log(contentUuid, userUuid, commentContent);
           throw new InternalServerErrorException('Database Error');
         }
         this.logger.error('createComment error');
