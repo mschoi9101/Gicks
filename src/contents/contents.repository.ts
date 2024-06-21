@@ -58,11 +58,29 @@ export class ContentsRepository {
   }
 
   async getContent(contentUuid: string) {
-    return this.prismaService.content.findUniqueOrThrow({
-      where: {
-        uuid: contentUuid,
-      },
-    });
+    return this.prismaService.content
+      .findUniqueOrThrow({
+        where: {
+          uuid: contentUuid,
+          deletedAt: null,
+        },
+      })
+      .catch((error) => {
+        if (error instanceof PrismaClientKnownRequestError) {
+          if (error.code === 'P2025') {
+            this.logger.debug(`Content with id ${contentUuid} not found`);
+            throw new NotFoundException(
+              `Content with id ${contentUuid} not found`,
+            );
+          }
+          this.logger.error('getContent error');
+          this.logger.debug(error);
+          throw new InternalServerErrorException('Database Error');
+        }
+        this.logger.error('getContent error');
+        this.logger.debug(error);
+        throw new InternalServerErrorException('Unknown Error');
+      });
   }
 
   async updateContent(
