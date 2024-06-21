@@ -29,6 +29,7 @@ jobs:
             sudo git stash pop
             sudo npm install
             sudo npx prisma generate
+            sudo npx prisma migrate deploy
             sudo npm run build
             sudo pm2 list
             sudo pm2 reload gicks
