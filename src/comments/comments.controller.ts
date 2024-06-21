@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from 'src/contents/dto/create-comment.dto';
-import { AddTagsDto } from 'src/contents/dto/add-tags.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('comments')
+@ApiTags('comments')
 export class CommentsController {
   constructor(private contentService: CommentsService) {}
 
@@ -17,6 +18,7 @@ export class CommentsController {
     return this.contentService.getComment(commentUuid);
   }
 
+  @ApiBearerAuth()
   @Post()
   createComment(
     @Body() { contentUuid, userUuid, commentContent }: CreateCommentDto,

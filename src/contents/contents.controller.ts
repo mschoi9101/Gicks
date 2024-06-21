@@ -15,10 +15,11 @@ import { GetContentListDto } from './dto/get-contentList.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { GetUser } from 'src/user/decorator/get-user.decorator';
 import { UpdateContentDto } from './dto/UpdateContent.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AddTagsDto } from './dto/add-tags.dto';
 
 @Controller('contents')
+@ApiTags('contents')
 export class ContentsController {
   constructor(private contentService: ContentsService) {}
 
