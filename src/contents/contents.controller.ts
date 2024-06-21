@@ -40,7 +40,6 @@ export class ContentsController {
 
   @Get()
   getContentList(@Query() { page = 1, pageSize = 10 }: GetContentListDto) {
-    console.log(typeof page, typeof pageSize);
     return this.contentService.getContentList(page, pageSize);
   }
 
@@ -67,7 +66,6 @@ export class ContentsController {
     return this.contentService.deleteContent(userUuid, uuid);
   }
 
-
   @Post('/Tag')
   addTags(@Body() { contentUuid, tag }: AddTagsDto) {
     return this.contentService.addTags(contentUuid, tag);
@@ -77,6 +75,4 @@ export class ContentsController {
   search(@Param('tag') tag: string) {
     return this.contentService.searchTag(tag);
   }
-
-
 }

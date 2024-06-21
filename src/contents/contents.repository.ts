@@ -1,10 +1,8 @@
 import {
-  Body,
   Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
-  Post,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateContentDto } from './dto/UpdateContent.dto';
@@ -139,7 +137,7 @@ export class ContentsRepository {
     return { message: 'content has been successfully deleted' };
   }
 
-  addTags(contentUuid: string, tag: string) {
+  async addTags(contentUuid: string, tag: string) {
     return this.prismaService.tags.create({
       data: { tag, contentUuid },
     });
@@ -151,15 +149,5 @@ export class ContentsRepository {
       select: { contentUuid: true },
     });
     return tags.map((tag) => tag.contentUuid);
-  }
-  catch(error) {
-    if (error instanceof PrismaClientKnownRequestError) {
-      this.logger.error('searchTag error');
-      this.logger.debug(error);
-      throw new InternalServerErrorException('Database Error');
-    }
-    this.logger.error('searchTag error');
-    this.logger.debug(error);
-    throw new InternalServerErrorException('Unknown Error');
   }
 }
