@@ -13,16 +13,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Place {
-  uuid      String   @id @default(uuid())
-  createdAt DateTime  @default(now()) @map("created_at")
 
-  name String
-  placeUrl String
-  categoryName String
-  address String
-  phone String
-  imageUrl String
-  
-  @@map("place")
+
+model User {
+  uuid  String  @id @db.Uuid
+  password String
+  name  String
+  studentID Int @map("student_id")
+  major String
+
+  content Content[]
+
+  @@map("user")
 }
+
+model Content {
+  uuid String @id @db.Uuid
+  title String
+  body String 
+  createdAt DateTime @default(now()) @map("created_at")
+  Deadline DateTime @map("deadline")
+  HeadCount Int @map("headcount")
+  authorID String @map("author_id") @db.Uuid
+
+  author  User @relation(fields: [authorID], references: [uuid])
+  tags Tags[]
+
+  @@map("content")
+}
+
+
+
