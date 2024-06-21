@@ -14,10 +14,10 @@ datasource db {
 }
 
 model User {
-  uuid      String @id @db.Uuid
+  uuid      String    @id @default(uuid()) @db.Uuid
   password  String
   name      String
-  studentID Int    @map("student_id")
+  studentID String    @map("student_id") @unique
   major     String
 
   content Content[]
