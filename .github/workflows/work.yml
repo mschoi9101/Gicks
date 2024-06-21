@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ['production']
+  pull_request:
+    branches: ['production']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run scripts
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          username: ${{ secrets.LIGHTSAIL_USERNAME }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd Gicks
+            sudo git stash
+            sudo git pull
+            sudo git stash pop
+            sudo npm install
+            sudo npx prisma generate
+            sudo npx prisma migrate deploy
+            sudo npm run build
+            sudo pm2 list
+            sudo pm2 reload gicks

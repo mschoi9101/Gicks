@@ -48,7 +48,9 @@ model Content {
 model Tags {
   id        Int       @id @default(autoincrement())
   tag       String    @unique
-  contents Content[]
+  contentUuid String  @db.Uuid
+  content Content @relation(fields: [contentUuid], references : [uuid])
+
 
   @@map("tag")
 }
@@ -66,9 +68,9 @@ model Recruit {
 
 model Comment {
   contentUuid    String    @map("content_uuid") @db.Uuid
-  uuid           String    @unique @db.Uuid
+  uuid           String    @unique @db.Uuid @default(uuid())
   commentContent String    @map("comment_content")
-  userUuid       String    @map("comment_uuid") @db.Uuid
+  userUuid       String    @map("user_uuid") @db.Uuid
   createAt       DateTime  @default(now()) @map("created_at")
   deleteAt       DateTime? @map("deleted_at")
 
